@@ -111,7 +111,7 @@ let signUpFunction = (req, res) => {
         return new Promise((resolve, reject) => {
             if (req.body.email) {
                 if (!validateInput.Email(req.body.email)) {
-                    let apiResponse = response.generate(true, 'Email Does not met the requirement', 400, null)
+                    let apiResponse = response.generate(true, 'Email Does not meet the requirement', 400, null)
                     reject(apiResponse)
                 } else if (check.isEmpty(req.body.password)) {
                     let apiResponse = response.generate(true, '"password" parameter is missing"', 400, null)
