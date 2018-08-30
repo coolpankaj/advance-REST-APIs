@@ -83,6 +83,7 @@ let deleteUser = (req, res) => {
 let editUser = (req, res) => {
 
     let options = req.body;
+    options.password = passwordLib.hashpassword(req.body.password)
     UserModel.update({ 'userId': req.params.userId }, options).exec((err, result) => {
         if (err) {
             console.log(err)

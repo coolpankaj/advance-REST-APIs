@@ -39,15 +39,23 @@ let setServer = (server) => {
 
                     console.log("user is verified..setting details");
                     let currentUser = user.data;
+                    console.log(currentUser)
                     // setting socket user id 
                     socket.userId = currentUser.userId
                     let fullName = `${currentUser.firstName} ${currentUser.lastName}`
                     console.log(`${fullName} is online`);
-                    socket.emit(currentUser.userId,`${currentUser.userId}  ${fullName} is online.`)
+                   // socket.emit(currentUser.userId,`${currentUser.userId}  ${fullName} is online.`)
 
                     let userObj = {userId:currentUser.userId,fullName:fullName}
                     allOnlineUsers.push(userObj)
                     console.log(allOnlineUsers)
+
+
+                    // setting user name
+                    socket.room = 'myChat'
+                    // joining chat-group room
+                    socket.join(socket.room)
+                    socket.to(socket.room).broadcast.emit('online-user-list', allOnlineUsers)
 
                 }
 
@@ -69,9 +77,17 @@ let setServer = (server) => {
             allOnlineUsers.splice(removeIndex,1)
             console.log(allOnlineUsers)
 
+            socket.to(socket.room).broadcast.emit('online-user-list', allOnlineUsers)
+            socket.leave(socket.room)
+
 
         }) // end of on disconnect
 
+            socket.on('chat-msg', (data) => {
+                console.log('socket chat-msg called.')
+                console.log(data)
+                myIo.emit(data.receiverId, data)
+            })
 
     });
 
