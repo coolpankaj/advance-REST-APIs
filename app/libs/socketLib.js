@@ -8,8 +8,8 @@ const logger = require('./loggerLib.js');
 const events = require('events');
 const eventEmitter = new events.EventEmitter();
 
-const tokenLib = require("./tokenLib.js");
-const check = require("./checkLib.js");
+const tokenLib = require("./tokenLib");
+const check = require("./checkLib");
 const response = require('./responseLib')
 
 let setServer = (server) => {
@@ -43,7 +43,7 @@ let setServer = (server) => {
                     socket.userId = currentUser.userId
                     let fullName = `${currentUser.firstName} ${currentUser.lastName}`
                     console.log(`${fullName} is online`);
-                    socket.emit(currentUser.userId,"You are online")
+                    socket.emit(currentUser.userId,`${currentUser.userId}  ${fullName} is online.`)
 
                     let userObj = {userId:currentUser.userId,fullName:fullName}
                     allOnlineUsers.push(userObj)
