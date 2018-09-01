@@ -2,7 +2,7 @@
 
 const socket = io('http://localhost:3000');
 
-const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RpZCI6ImY0UE0zTll6bCIsImlhdCI6MTUzNTYzNzIyOTQ5NCwiZXhwIjoxNTM1NzIzNjI5LCJzdWIiOiJhdXRoVG9rZW4iLCJpc3MiOiJlZENoYXQiLCJkYXRhIjp7InVzZXJJZCI6ImFzQTJERHRteiIsImZpcnN0TmFtZSI6InBhbmthaiAiLCJsYXN0TmFtZSI6InNpbmdoIiwiZW1haWwiOiJhYmNAZ21haWwuY29tIiwibW9iaWxlTnVtYmVyIjoxMjM0NTY3ODl9fQ.rCbYihH6NKuth-08uh8pVclvQSGtiHF2CyKSiHk_buk"
+const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RpZCI6Ikk3RW1mSTBKUSIsImlhdCI6MTUzNTc3OTE4MjczNiwiZXhwIjoxNTM1ODY1NTgyLCJzdWIiOiJhdXRoVG9rZW4iLCJpc3MiOiJlZENoYXQiLCJkYXRhIjp7InVzZXJJZCI6ImFzQTJERHRteiIsImZpcnN0TmFtZSI6InBhbmthaiAiLCJsYXN0TmFtZSI6InNpbmdoIiwiZW1haWwiOiJhYmNAZ21haWwuY29tIiwibW9iaWxlTnVtYmVyIjoxMjM0NTY3ODl9fQ.VMDnbWhojGBLH1GDqe0biX6qvk2D3kie0eH0I4VqhNo"
 const userId= "asA2DDtmz"
 
 let chatMessage = {
@@ -23,12 +23,6 @@ let chatSocket = () => {
 
   });
 
-  socket.on(userId, (data) => {
-
-    console.log("you received a message from "+data.senderName)
-    console.log(data.message)
-
-  });
 
   socket.on("online-user-list", (data) => {
 
@@ -37,6 +31,8 @@ let chatSocket = () => {
 
   });
 
+
+ 
 
   $("#send").on('click', function () {
 
@@ -48,7 +44,7 @@ let chatSocket = () => {
 
   $("#messageToSend").on('keypress', function () {
 
-    socket.emit("typing","Aditya Kumar")
+    socket.emit("typing", userId)
 
   })
 
@@ -57,6 +53,13 @@ let chatSocket = () => {
     console.log(data+" is typing")
     
     
+  });
+
+  socket.on(userId, (data) => {
+
+    console.log("you received a message from "+data.senderName)
+    console.log(data.message)
+
   });
 
 

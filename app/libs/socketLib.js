@@ -11,6 +11,9 @@ const eventEmitter = new events.EventEmitter();
 const tokenLib = require("./tokenLib");
 const check = require("./checkLib");
 const response = require('./responseLib')
+const ChatModel = mongoose.model('Chat');
+
+
 
 let setServer = (server) => {
 
@@ -64,6 +67,26 @@ let setServer = (server) => {
           
         }) // end of listening set-user event
 
+        socket.on('chat-msg', (data) => {
+            console.log('socket chat-msg called.')
+            console.log(data)
+            data['chatId'] = shortid.generate()
+            console.log(data)
+            
+            setTimeout(function() {
+                eventEmitter.emit('save-chat', data)
+            })
+
+            myIo.emit(data.receiverId, data)
+            // socket.emit(data.receiverId, data)
+        }) // receiving chat-message from client side
+
+
+
+        socket.on('typing', (fullName) => {
+            socket.to(socket.room).broadcast.emit('typing', fullName)
+        })
+
 
         socket.on('disconnect', () => {
             // disconnect the user from socket
@@ -83,15 +106,47 @@ let setServer = (server) => {
 
         }) // end of on disconnect
 
-            socket.on('chat-msg', (data) => {
-                console.log('socket chat-msg called.')
-                console.log(data)
-                myIo.emit(data.receiverId, data)
-            })
+         
 
     });
 
 }
+
+
+// database operations are kept outside of socket.io code.
+
+// saving chats to database.
+eventEmitter.on('save-chat', (data) => {
+
+    // let today = Date.now();
+
+    let newChat = new ChatModel({
+
+        chatId: data.chatId,
+        senderName: data.senderName,
+        senderId: data.senderId,
+        receiverName: data.receiverName || '',
+        receiverId: data.receiverId || '',
+        message: data.message,
+        chatRoom: data.chatRoom || '',
+        createdOn: data.createdOn
+
+    });
+
+    newChat.save((err,result) => {
+        if(err){
+            console.log(`error occurred: ${err}`);
+        }
+        else if(result == undefined || result == null || result == ""){
+            console.log("Chat Is Not Saved.");
+        }
+        else {
+            console.log("Chat Saved.");
+            console.log(result);
+        }
+    });
+
+}); // end of saving chat.
 
 module.exports = {
     setServer: setServer

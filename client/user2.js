@@ -2,7 +2,7 @@
 
 const socket = io('http://localhost:3000');
 
-const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RpZCI6IjJhZzdhNnZEUyIsImlhdCI6MTUzNTYzNzE5NjQzMywiZXhwIjoxNTM1NzIzNTk2LCJzdWIiOiJhdXRoVG9rZW4iLCJpc3MiOiJlZENoYXQiLCJkYXRhIjp7InVzZXJJZCI6IkhjWUNJdTVtLSIsImZpcnN0TmFtZSI6InVzZXIyIiwibGFzdE5hbWUiOiJ1c2VyMiIsImVtYWlsIjoiZGVmQGdtYWlsLmNvbSIsIm1vYmlsZU51bWJlciI6OTg3NjU0MzIxfX0.zgbQIXbi0fAcsTxxoPK_QSy84X3bdUyPFYibb67ONnI"
+const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RpZCI6IjJwUzBIUzBHOSIsImlhdCI6MTUzNTc3OTIxNzAyMSwiZXhwIjoxNTM1ODY1NjE3LCJzdWIiOiJhdXRoVG9rZW4iLCJpc3MiOiJlZENoYXQiLCJkYXRhIjp7InVzZXJJZCI6IkhjWUNJdTVtLSIsImZpcnN0TmFtZSI6InVzZXIyIiwibGFzdE5hbWUiOiJ1c2VyMiIsImVtYWlsIjoiZGVmQGdtYWlsLmNvbSIsIm1vYmlsZU51bWJlciI6OTg3NjU0MzIxfX0.mUgBbtq8AzLeIThJgommC1yxB5X7YuaQQvliIKR7nao"
 const userId= "HcYCIu5m"
 
 let chatMessage = {
@@ -48,7 +48,7 @@ let chatSocket = () => {
 
   $("#messageToSend").on('keypress', function () {
 
-    socket.emit("typing","Aditya Kumar")
+    socket.emit("typing", userId)
 
   })
 
